@@ -1,0 +1,43 @@
+.login-form {
+    display: flex;
+    flex-direction: column;
+    background-color: cadetblue;
+    padding: 20px;
+    width: 260px;
+    border-radius: 10px;
+    position: relative;
+
+    .login-form__title {
+        text-align: center;
+    }
+
+    .login-form__label {
+        width: 220px;
+        margin-bottom: 5px;
+    }
+    .login-form__input {
+        width: 220px;
+        margin-bottom: 20px;
+        padding: 5px;
+    }
+
+    .login-form__submit {
+        margin-top: 50px;
+        margin-bottom: 10px;
+        width: 220px;
+        padding: 5px;
+        border-radius: 5px;
+        border-color: transparent;
+    }
+
+    .login-form__error {
+        width: 220px;
+        padding: 5px;
+        color: red;
+        display: block;
+        position: absolute;
+        left: 20px;
+        bottom: 65px;
+        font-size: 14px;
+    }
+}

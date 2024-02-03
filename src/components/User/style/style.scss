@@ -1,0 +1,20 @@
+.user {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .user__img {
+        width: 40px;
+        height: 40px;
+        color: gray;
+    }
+
+    .user__img_active {
+        color: rgb(1, 247, 34);
+    }
+
+    .user__button {
+        width: 60px;
+    }
+}

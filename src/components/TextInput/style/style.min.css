@@ -1,0 +1,28 @@
+.txt-input {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: 80px;
+}
+.txt-input .txt-input__label {
+    width: 200px;
+    margin-bottom: 5px;
+}
+.txt-input .txt-input__input {
+    width: 200px;
+    padding: 5px;
+    margin-bottom: 0;
+}
+.txt-input .txt-input__error {
+    width: 200px;
+    margin-bottom: 20px;
+    padding: 5px;
+    color: red;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}

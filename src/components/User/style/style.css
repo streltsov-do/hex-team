@@ -1,0 +1,27 @@
+/* line 1, style.scss */
+.user {
+  padding: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 10px;
+}
+/* line 7, style.scss */
+.user .user__img {
+  width: 40px;
+  height: 40px;
+  color: gray;
+}
+/* line 13, style.scss */
+.user .user__img_active {
+  color: #01f722;
+}
+/* line 17, style.scss */
+.user .user__button {
+  width: 60px;
+}
+
+/*# sourceMappingURL=style.css.map */

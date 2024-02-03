@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { LoginForm } from "../../components/LoginForm/LoginForm";
-import { useAppDispatch } from "../../redux/hooks";
-import { AUTH } from "../../redux/sliceLogin";
 import "./style/style.css";
 
-export const PageAuth = () => {
+export const PageReg = () => {
     const [errorPost, setErrorPost] = useState(false);
     const [errorLogin, setErrorLogin] = useState(false);
     const [errorPassword, setErrorPassword] = useState(false);
@@ -30,20 +28,17 @@ export const PageAuth = () => {
 
     const navigate = useNavigate();
 
-    const dispatch = useAppDispatch();
-
-    const postAuth = (login: string, password: string) => {
-        fetch(`https://front-test.hex.team/api/login`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
+    const postReg = (login: string, password: string) => {
+        fetch(
+            `https://front-test.hex.team/api/register?username=${login}&password=${password}`,
+            {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
             },
-            body: JSON.stringify({
-                username: login,
-                password: password,
-            }),
-        }).then((response) => {
+        ).then((response) => {
             return response
                 .json()
                 .then((data) => {
@@ -52,21 +47,7 @@ export const PageAuth = () => {
                         setErrorPostText(`ERROR: ${data.detail}`);
                         setErrorPost(true);
                     } else {
-                        // console.log("data",data);
-                        const auth = {
-                            access_token: data.access_token,
-                            token_type: data.token_type,
-                        };
-                        localStorage.setItem("auth", JSON.stringify(auth));
-
-                        dispatch(
-                            AUTH({
-                                access_token: data.access_token,
-                                token_type: data.token_type,
-                            }),
-                        );
-
-                        navigate("/stats");
+                        navigate("/auth");
                     }
                     return data;
                 })
@@ -89,16 +70,16 @@ export const PageAuth = () => {
         setErrorLogin(!login);
         setErrorPassword(!password);
         if (login && password) {
-            postAuth(login, password);
+            postReg(login, password);
         }
     };
 
     return (
-        <div className="page-auth">
+        <div className="page-reg">
             <LoginForm
-                name="auth"
-                title="Авторизация"
-                submitText="Войти"
+                name="reg"
+                title="Регистрация"
+                submitText="Зарегистрироваться"
                 onClick={handleClick}
                 login={login}
                 loginError={errorLogin}
@@ -108,9 +89,6 @@ export const PageAuth = () => {
                 changePassword={changePassword}
                 errorForm={errorPost}
                 errorFormText={errorPostText}
-                style={{
-                    backgroundColor: "pink",
-                }}
             />
         </div>
     );

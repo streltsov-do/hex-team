@@ -1,0 +1,34 @@
+/* line 1, style.scss */
+.txt-input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 80px;
+}
+/* line 7, style.scss */
+.txt-input .txt-input__label {
+  width: 220px;
+  margin-bottom: 5px;
+}
+/* line 11, style.scss */
+.txt-input .txt-input__input {
+  width: 220px;
+  padding: 5px;
+  margin-bottom: 0;
+}
+/* line 16, style.scss */
+.txt-input .txt-input__error {
+  width: 220px;
+  margin-bottom: 20px;
+  padding: 5px;
+  color: red;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+/*# sourceMappingURL=style.css.map */

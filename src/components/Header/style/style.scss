@@ -1,0 +1,23 @@
+.header {
+    height: 50px;
+    background-color: bisque;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    // width: 100%;
+    .nav {
+        display: flex;
+        // gap: 10px;
+        justify-content: space-between;
+        min-width: 400px;
+        list-style: none;
+
+        .nav__link {
+            text-decoration: none;
+        }
+
+        .nav__link_active {
+            color: blue;
+        }
+    }
+}
