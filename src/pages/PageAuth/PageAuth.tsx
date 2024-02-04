@@ -66,7 +66,7 @@ export const PageAuth = () => {
                             }),
                         );
 
-                        navigate("/stats");
+                        navigate("/squeeze");
                     }
                     return data;
                 })

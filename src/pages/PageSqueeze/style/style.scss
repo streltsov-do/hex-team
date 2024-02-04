@@ -1,0 +1,24 @@
+$width: 800px;
+$padding: 5px;
+$border: 3px;
+
+.page-squeeze {
+    padding: 30px;
+    .form-squeeze {
+        display: flex;
+        flex-direction: column;
+        gap:5px;
+        width: $width;
+        padding: $padding;
+        border-radius: 5px;
+        border-color: black;
+        border-style: solid;
+        border-width: $border;
+        display: flex;
+        flex-direction: column;
+
+        .form-squeeze__submit {
+            width: $width - 2 * ($padding + $border);
+        }
+    }
+}

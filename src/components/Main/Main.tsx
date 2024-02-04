@@ -1,7 +1,9 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { PageAuth } from "../../pages/PageAuth/PageAuth";
+import { PageNotFound } from "../../pages/PageNotFound/PageNotFound";
 import { PageReg } from "../../pages/PageReg/PageReg";
+import { PageSqueeze } from "../../pages/PageSqueeze/PageSqueeze";
 import { PageStats } from "../../pages/PageStats/PageStats";
 
 const ROUTER_ARR = [
@@ -14,9 +16,17 @@ const ROUTER_ARR = [
         element: <PageAuth />,
     },
     {
+        path: "/squeeze",
+        element: <PageSqueeze />,
+    },
+    {
         path: "/stats",
         element: <PageStats />,
     },
+    {
+        path: "*",
+        element: <PageNotFound />
+    }
 ];
 
 export const Main = () => {

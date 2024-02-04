@@ -3,7 +3,7 @@ import { RootState } from "../../redux/reducers";
 import "./style/style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { LOGOUT } from "../../redux/sliceLogin";
 
 export const User = () => {

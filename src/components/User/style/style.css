@@ -1,5 +1,7 @@
 /* line 1, style.scss */
 .user {
+  position: absolute;
+  right: 10px;
   padding: 5px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -9,17 +11,17 @@
           align-items: center;
   gap: 10px;
 }
-/* line 7, style.scss */
+/* line 9, style.scss */
 .user .user__img {
   width: 40px;
   height: 40px;
   color: gray;
 }
-/* line 13, style.scss */
+/* line 15, style.scss */
 .user .user__img_active {
   color: #01f722;
 }
-/* line 17, style.scss */
+/* line 19, style.scss */
 .user .user__button {
   width: 60px;
 }
