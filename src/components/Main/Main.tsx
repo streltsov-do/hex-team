@@ -25,8 +25,8 @@ const ROUTER_ARR = [
     },
     {
         path: "*",
-        element: <PageNotFound />
-    }
+        element: <PageNotFound />,
+    },
 ];
 
 export const Main = () => {

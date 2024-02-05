@@ -1,8 +1,6 @@
-/* line 5, style.scss */
 .page-squeeze {
     padding: 30px;
 }
-/* line 7, style.scss */
 .page-squeeze .form-squeeze {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -15,15 +13,16 @@
     width: 800px;
     padding: 5px;
     border-radius: 5px;
-    border-color: black;
+    border-color: #000;
     border-style: solid;
     border-width: 3px;
     display: flex;
     flex-direction: column;
 }
-/* line 20, style.scss */
 .page-squeeze .form-squeeze .form-squeeze__submit {
     width: 784px;
 }
-
-/*# sourceMappingURL=style.css.map */
+.page-squeeze .page-squeeze__update {
+    padding: 5px;
+    border-radius: 5px;
+}

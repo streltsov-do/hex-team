@@ -9,16 +9,16 @@
     height: 80px;
 }
 .txt-input .txt-input__label {
-    width: 200px;
+    width: 220px;
     margin-bottom: 5px;
 }
 .txt-input .txt-input__input {
-    width: 200px;
+    width: 220px;
     padding: 5px;
     margin-bottom: 0;
 }
 .txt-input .txt-input__error {
-    width: 200px;
+    width: 220px;
     margin-bottom: 20px;
     padding: 5px;
     color: red;

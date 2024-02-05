@@ -51,6 +51,7 @@ export const LoginForm = (props: propsType) => {
                 onChange={changePassword}
                 error={passwordError}
                 value={password}
+                type="password"
             />
             <button
                 className="login-form__submit"

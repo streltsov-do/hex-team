@@ -1,3 +1,84 @@
 .page-stats {
-    
+    padding: 10px;
+
+    .table {
+        border-style: solid;
+        padding: 0;
+        // box-sizing: content-box;
+        // border-radius: 5px;
+        gap: 0;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+
+        .table__header {
+            border-style: solid;
+            border-width: 2px;
+            border-color: gray;
+            padding: 2px;
+            gap: 20px;
+        }
+
+        .table__data {
+            border-style: solid;
+            border-width: 2px;
+            border-color: gray;
+            padding: 2px;
+            text-align: center;
+            // min-width: 400px;
+            max-width: 400px;
+            word-wrap: break-word;
+        }
+
+        .table__data_long {
+            min-width: 300px;
+        }
+
+        .table__sort {
+            // width:  20px;
+            // height: 20px;
+            // border-style: none;
+            padding: 0;
+            margin-left: 20px;
+        }
+
+        .table__pages {
+            display: flex;
+            gap: 5px;
+            // display: table-cell;
+            // column-span: all;
+        }
+
+        .table__set-page {
+            // width: 200px;
+        }
+    }
+
+    .page-stats__update {
+        padding: 5px;
+        border-radius: 5px;
+        width: 200px;
+        &:hover {
+            background-color: aliceblue;
+        }
+    }
+}
+
+.order-sort {
+    width: 18px;
+    height: 18px;
+}
+
+.order-sort_up {
+    @extend .order-sort;
+    color: green;
+}
+.order-sort_down {
+    @extend .order-sort;
+    color: blue;
+}
+
+.page-stats__jump {
+}
+.page-stats__jump_wait {
+    background-color: orange;
 }

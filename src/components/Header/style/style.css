@@ -1,30 +1,30 @@
 /* line 1, style.scss */
 .header {
-  height: 50px;
-  background-color: bisque;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+    height: 50px;
+    background-color: bisque;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
 }
 /* line 8, style.scss */
 .header .nav {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 40px;
-  min-width: 400px;
-  list-style: none;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    gap: 40px;
+    min-width: 400px;
+    list-style: none;
 }
 /* line 15, style.scss */
 .header .nav .nav__link {
-  text-decoration: none;
+    text-decoration: none;
 }
 /* line 19, style.scss */
 .header .nav .nav__link_active {
-  color: blue;
+    color: blue;
 }
 
 /*# sourceMappingURL=style.css.map */

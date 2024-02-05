@@ -1,12 +1,12 @@
-.tooltip{
+.tooltip {
     position: relative;
-    .tooltip__block{
+    .tooltip__block {
         position: absolute;
-        // width: 200px;
-        left: 30%;
-        top: -5px;
+        width: 300px;
+        left: 50%;
+        top: -100%;
         background-color: rgb(255, 249, 161);
         border-radius: 10px;
         padding: 3px;
-    }    
+    }
 }

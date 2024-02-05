@@ -44,7 +44,10 @@ export const Header = () => {
             <nav>
                 <ul className="nav">
                     {LOCATIONS_ARR.map((val, idx) => {
-                        if ((val.logged && logged) || (!val.logged && !logged)) {
+                        if (
+                            (val.logged && logged) ||
+                            (!val.logged && !logged)
+                        ) {
                             return (
                                 <li key={idx}>
                                     <Link

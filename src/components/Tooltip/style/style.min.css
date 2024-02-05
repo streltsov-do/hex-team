@@ -1,16 +1,12 @@
-/* line 1, style.scss */
 .tooltip {
     position: relative;
 }
-/* line 3, style.scss */
 .tooltip .tooltip__block {
     position: absolute;
-    width: 300px;
+    width: 400px;
     left: 50%;
     top: -100%;
     background-color: #fff9a1;
     border-radius: 10px;
     padding: 3px;
 }
-
-/*# sourceMappingURL=style.css.map */

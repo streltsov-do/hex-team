@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { TextInput } from "../../components/TextInput/TextInput";
 import { Tooltip } from "../../components/Tooltip/Tooltip";
 import { useAppSelector } from "../../redux/hooks";
@@ -30,6 +31,13 @@ export const PageSqueeze = () => {
     const [urlSqueezed, setUrlSqueezed] = useState("");
 
     const auth = useAppSelector((state: RootState) => state.login);
+    const logged = auth.access_token !== "";
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        !logged && navigate("/");
+    });
 
     const changeUrlSrc = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -68,11 +76,11 @@ export const PageSqueeze = () => {
                             `https://front-test.hex.team/s/${data.short}`,
                         );
                     }
-                    return data;
+                    return;
                 })
                 .catch((error) => {
                     console.log("ERROR", error);
-                    return error;
+                    return;
                 });
         });
     };
@@ -83,49 +91,54 @@ export const PageSqueeze = () => {
     };
 
     return (
-        <div className="page-squeeze">
-            <h1 className="page-squeeze__title">Сервис сокращения ссылок</h1>
-            <form name="squeeze" className="form-squeeze">
-                <TextInput
-                    name="Исходная ссылка"
-                    form="squeeze"
-                    onChange={changeUrlSrc}
-                    error={false}
-                    value={urlSrc}
-                    style={{
-                        width: WIDTH + "px",
-                    }}
-                />
-                <Tooltip text="Нажмите для копирования ссылки">
-                    <TextInput
-                        name="Сокращенная ссылка"
-                        form="squeeze"
-                        onChange={() => {}}
-                        error={false}
-                        value={urlSqueezed}
-                        readonly={true}
-                        style={{
-                            width: WIDTH + "px",
-                        }}
-                        onClick={handleClickSqueeze}
-                    />
-                </Tooltip>
-                <button
-                    className="form-squeeze__submit"
-                    type="submit"
-                    form="squeeze"
-                    onClick={(e) =>
-                        handleClick(
-                            e,
-                            urlSrc,
-                            auth.token_type,
-                            auth.access_token,
-                        )
-                    }
-                >
-                    Сократить
-                </button>
-            </form>
-        </div>
+        <>
+            {logged && (
+                <div className="page-squeeze">
+                    <h1 className="page-squeeze__title">
+                        Сервис сокращения ссылок
+                    </h1>
+                    <form name="squeeze" className="form-squeeze">
+                        <TextInput
+                            name="Исходная ссылка"
+                            form="squeeze"
+                            onChange={changeUrlSrc}
+                            error={false}
+                            value={urlSrc}
+                            style={{
+                                width: WIDTH + "px",
+                            }}
+                        />
+                        <TextInput
+                            name="Сокращенная ссылка"
+                            form="squeeze"
+                            onChange={() => {}}
+                            error={false}
+                            value={urlSqueezed}
+                            readonly={true}
+                            style={{
+                                width: WIDTH + "px",
+                            }}
+                            onClick={handleClickSqueeze}
+                            tooltip_text="Нажмите для копирования ссылки"
+                        />
+                        <button
+                            className="form-squeeze__submit"
+                            type="submit"
+                            form="squeeze"
+                            onClick={(e) =>
+                                handleClick(
+                                    e,
+                                    urlSrc,
+                                    auth.token_type,
+                                    auth.access_token,
+                                )
+                            }
+                        >
+                            Сократить
+                        </button>
+                    </form>
+                </div>
+            )}
+        </>
     );
 };

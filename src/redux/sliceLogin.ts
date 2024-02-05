@@ -5,21 +5,23 @@ export interface IntLogin {
     token_type: string;
 }
 
+const initialValue: IntLogin = {
+    access_token: "",
+    token_type: "",
+};
+
 function initStateLogin() {
     const localData: string | null = localStorage.getItem("auth");
 
-    let initialValue: IntLogin = {
-        access_token: "",
-        token_type: "",
-    };
+    let initial = initialValue;
 
     if (typeof localData === "string") {
         const data: IntLogin = JSON.parse(localData);
 
-        initialValue = data;
+        initial = data;
     }
 
-    return initialValue;
+    return initial;
 }
 
 const initialState: IntLogin = initStateLogin();
@@ -33,7 +35,7 @@ const sliceLogin = createSlice({
             return state;
         },
         LOGOUT(state) {
-            state = initialState;
+            state = initialValue;
             return state;
         },
     },
