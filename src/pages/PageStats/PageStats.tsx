@@ -1,143 +1,40 @@
-import { findIconDefinition } from "@fortawesome/fontawesome-svg-core";
-import {
-    faSort,
-    faSortDown,
-    faSortUp,
-} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Tooltip } from "../../components/Tooltip/Tooltip";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/reducers";
+import {
+    FIELD_COUNTER,
+    FIELD_SHORT,
+    FIELD_TARGET,
+    IntTableData,
+    ORDER_ASC,
+    ORDER_SRC,
+    SORT_EMPTY,
+    TypeField,
+    TypeOrder,
+    TypeSort,
+} from "./constants";
+import {
+    changeOrder,
+    compareFunc,
+    getEquals,
+    getOrderIcon,
+    getStatistics,
+    setSort,
+} from "./functions";
 import "./style/style.css";
 
-interface IntTableData {
-    short: string;
-    target: string;
-    counter: number;
-}
-
-const TABLE_DATA_INIT: IntTableData[] = [
-    {
-        short: "",
-        target: "",
-        counter: 0,
-    },
-];
-
-const getStatistics = (
-    token_type: string,
-    access_token: string,
-    order: string,
-    offset: number,
-    limit: number,
-) => {
-    const tokenType = token_type[0].toUpperCase() + token_type.slice(1);
-    return fetch(
-        `https://front-test.hex.team/api/statistics?order=${order}&offset=${offset}&limit=${limit}`,
-        {
-            method: "GET",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                Authorization: `${tokenType} ${access_token}`,
-            },
-            // mode: 'no-cors'
-        },
-    ).then((response) => {
-        // console.log("rr", response);
-        return response
-            .json()
-            .then((data) => {
-                // const totalCount = parseInt((response.headers.get('X-Total-Count') || "0"),10);
-                const finalData = {
-                    data: TABLE_DATA_INIT,
-                    total: 0,
-                };
-                if (!data.detail) {
-                    const totalCount = parseInt(
-                        response.headers.get("X-Total-Count") || "0",
-                        10,
-                    );
-
-                    finalData.data = data;
-                    finalData.total = totalCount;
-                }
-                return finalData;
-            })
-            .catch((error) => {
-                const finalData = {
-                    data: TABLE_DATA_INIT,
-                    total: 0,
-                };
-                console.log("errP", error);
-                return finalData;
-            });
-    });
-    // .then((data) => {
-    //     console.log("res", data);
-    // })
-    // .catch((error) => {
-    //     console.log("errF", error);
-    // });
-};
-
-type TypeField = "short" | "target" | "counter";
-const FIELD_SHORT: TypeField = "short";
-const FIELD_TARGET: TypeField = "target";
-const FIELD_COUNTER: TypeField = "counter";
-
-type TypeOrder = "src" | "asc" | "desc";
-const ORDER_SRC: TypeOrder = "src";
-const ORDER_ASC: TypeOrder = "asc";
-const ORDER_DESC: TypeOrder = "desc";
-
-type TypeOrder2 = Omit<TypeOrder, "src">;
-
-const ORDER_ARR = [ORDER_ASC, ORDER_DESC, ORDER_SRC];
-
-const changeOrder = (orderNow: TypeOrder) => {
-    switch (orderNow) {
-        case ORDER_ASC:
-            return ORDER_DESC;
-        case ORDER_DESC:
-            return ORDER_SRC;
-        case ORDER_SRC:
-            return ORDER_ASC;
-    }
-};
-
-const getOrderIcon = (order: TypeOrder) => {
-    const objIcon = {
-        icon: faSort,
-        classN: "order-sort",
-    };
-    switch (order) {
-        case ORDER_ASC:
-            objIcon.icon = faSortDown;
-            objIcon.classN = "order-sort_down";
-            break;
-        case ORDER_DESC:
-            objIcon.icon = faSortUp;
-            objIcon.classN = "order-sort_up";
-            break;
-        case ORDER_SRC:
-            objIcon.icon = faSort;
-            objIcon.classN = "order-sort";
-            break;
-    }
-    return objIcon;
-};
-
 export const PageStats = () => {
-    // const [order, setOrder] = useState("asc_short");
-    // const [offset, setOffset] = useState(0);
     const [limit, setLimit] = useState(10);
-    const [totalNum, setTotalNum] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
     const [pageNow, setPageNow] = useState(0);
-    const [pageNew, setPageNew] = useState(0);
+    const [pageJump, setPageJump] = useState(0);
     const [classJump, setClassJump] = useState("page-stats__jump");
+    const [orderShort, setOrderShort] = useState<TypeOrder>(ORDER_SRC);
+    const [orderTarget, setOrderTarget] = useState<TypeOrder>(ORDER_SRC);
+    const [orderCounter, setOrderCounter] = useState<TypeOrder>(ORDER_SRC);
     const [tableData, setTableData] = useState([
         {
             short: "",
@@ -152,9 +49,11 @@ export const PageStats = () => {
             counter: 0,
         },
     ]);
-    const [orderShort, setOrderShort] = useState<TypeOrder>(ORDER_ASC);
-    const [orderTarget, setOrderTarget] = useState<TypeOrder>(ORDER_SRC);
-    const [orderCounter, setOrderCounter] = useState<TypeOrder>(ORDER_SRC);
+    const [sortState, setSortState] = useState<TypeSort[]>([
+        SORT_EMPTY,
+        SORT_EMPTY,
+        SORT_EMPTY,
+    ]);
 
     const auth = useAppSelector((state: RootState) => state.login);
     const logged = auth.access_token !== "";
@@ -165,6 +64,12 @@ export const PageStats = () => {
         !logged && navigate("/");
     });
 
+    const setPages = (page: number) => {
+        setPageNow(page);
+        setPageJump(page);
+        sessionStorage.setItem("page", page + "");
+    };
+
     const update = (offset: number, limit: number) => {
         getStatistics(
             auth.token_type,
@@ -174,16 +79,31 @@ export const PageStats = () => {
             limit,
         ).then((finalData) => {
             const dataArr = finalData.data as IntTableData[];
-            setTotalNum(finalData.total);
+            setTotalPages(Math.floor((finalData.total + limit - 1) / limit));
             setSrcData(dataArr);
             setTableData(dataArr);
-            // console.log("data", data);
         });
     };
 
     useEffect(() => {
         update(pageNow * limit, limit);
     }, []);
+
+    // useEffect(() => {
+    //     const sessionPage = sessionStorage.getItem("page");
+    //     const newPage = Number(sessionPage);
+    //     setPages(newPage);
+    //     update(newPage * limit, limit);
+    // }, []);
+
+    // useEffect(() => {
+    //     console.log("pageNow",pageNow);
+    //     console.log("totalPages",totalPages);
+    //     if (pageNow>totalPages){
+    //         setPages(0);
+    //         update(0,limit);
+    //     }
+    // }, [totalPages, pageNow]);
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -200,30 +120,6 @@ export const PageStats = () => {
         );
     };
 
-    const compare = (
-        a: IntTableData,
-        b: IntTableData,
-        field: TypeField,
-        order: TypeOrder2,
-    ) => {
-        let pick1 = order === ORDER_ASC ? a[field] : b[field];
-        let pick2 = order === ORDER_ASC ? b[field] : a[field];
-
-        if (typeof pick1 === "string" && typeof pick2 === "string") {
-            pick1 = pick1.toUpperCase();
-            pick2 = pick2.toUpperCase();
-        }
-
-        if (pick1 < pick2) {
-            return -1;
-        }
-        if (pick1 > pick2) {
-            return 1;
-        }
-
-        return 0;
-    };
-
     const sortTable = (
         e: React.MouseEvent<HTMLButtonElement>,
         field: TypeField,
@@ -233,6 +129,7 @@ export const PageStats = () => {
         let newArr = [...srcData];
 
         const newOrder = changeOrder(order);
+
         switch (field) {
             case FIELD_SHORT:
                 setOrderShort(newOrder);
@@ -245,15 +142,33 @@ export const PageStats = () => {
                 break;
         }
 
-        if (newOrder !== ORDER_SRC) {
-            newArr.sort((a, b) => compare(a, b, field, order));
-            // console.log("1", newArr);
+        const newSort = setSort(sortState, {
+            field: field,
+            order: newOrder,
+        });
+        setSortState(newSort);
+        // console.log("newSort", newSort);
+
+        const equalsArr : string[] = [
+            "","",""
+        ];
+        for (let i=0; i<newSort.length; i++) {
+            equalsArr[i] = getEquals(newArr, newSort[i].field);
+
+            if (newSort[i].field===field) {
+
+            }
         }
+        console.log("sa",equalsArr);
+
+        if (newOrder !== ORDER_SRC) {
+            newArr.sort((a, b) => compareFunc(a, b, field, newOrder));
+        }
+        const equals=getEquals(newArr,field);
+        console.log("equals", equals);
+        // console.log("split", equals.split(","));
         setTableData(newArr);
     };
-
-    const totalPages = Math.floor((totalNum + limit - 1) / limit);
-    // console.log("totalPages", totalPages);
 
     const handlePage = (
         e: React.MouseEvent<HTMLButtonElement>,
@@ -261,9 +176,7 @@ export const PageStats = () => {
     ) => {
         e.preventDefault();
         let newPage = pageNow + change;
-        // console.log("newPage",newPage)
-        setPageNow(newPage);
-        setPageNew(newPage);
+        setPages(newPage);
         update(newPage * limit, limit);
     };
 
@@ -284,15 +197,16 @@ export const PageStats = () => {
         // console.log("page",page);
 
         setClassJump("page-stats__jump");
-        setPageNow(page);
-        setPageNew(page);
+        // setPageNow(page);
+        // setPageJump(page);
+        setPages(page);
         update(page * limit, limit);
     };
 
     const changePageNew = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setClassJump("page-stats__jump_wait");
-        setPageNew(Number(e.target.value) - 1);
+        setPageJump(Number(e.target.value) - 1);
     };
 
     return (
@@ -417,7 +331,7 @@ export const PageStats = () => {
                                     <button
                                         className={classJump}
                                         onClick={(e) =>
-                                            handlePageNew(e, pageNew)
+                                            handlePageNew(e, pageJump)
                                         }
                                     >
                                         Переход к странице:
@@ -426,7 +340,7 @@ export const PageStats = () => {
                                         type="number"
                                         min={1}
                                         max={totalPages}
-                                        value={pageNew + 1}
+                                        value={pageJump + 1}
                                         onChange={changePageNew}
                                     />
                                 </td>

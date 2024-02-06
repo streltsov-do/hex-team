@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { LoginForm } from "../../components/LoginForm/LoginForm";
+import { useAppSelector } from "../../redux/hooks";
+import { RootState } from "../../redux/reducers";
 import "./style/style.css";
 
 export const PageReg = () => {
@@ -11,6 +13,9 @@ export const PageReg = () => {
 
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
+
+    const auth = useAppSelector((state: RootState) => state.login);
+    const logged = auth.access_token !== "";
 
     const changeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -27,6 +32,10 @@ export const PageReg = () => {
     };
 
     const navigate = useNavigate();
+    
+    useEffect(() => {
+        logged && navigate("/squeeze");
+    });
 
     const postReg = (login: string, password: string) => {
         fetch(
@@ -52,7 +61,7 @@ export const PageReg = () => {
                     return data;
                 })
                 .catch((error) => {
-                    console.log("errP", error);
+                    console.log("ERROR Response:", error);
                 });
             // console.log("response", response.json());
             // console.log(response.json());
