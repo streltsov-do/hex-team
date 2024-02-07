@@ -141,6 +141,9 @@ export const getEquals = (arr: IntTableData[], field: TypeField) => {
             if (arr[i][field] === arr[i + 1][field]) {
                 equal = true;
                 out += i + " ";
+                if (i === arr.length - 2) {
+                    out += i + 1;
+                }
             }
         } else {
             if (arr[i][field] !== arr[i + 1][field]) {
@@ -164,32 +167,41 @@ export const setSort = (arr: TypeSort[], val: TypeSort) => {
     let idxField = -1;
     let newArr = [...arr];
     for (let i = 0; i < arr.length; i++) {
-        if (arr[i].order === ORDER_SRC && idxSrc===-1) {
+        if (arr[i].order === ORDER_SRC && idxSrc === -1) {
             idxSrc = i;
         }
-        if (arr[i].field === val.field && idxField===-1) {
+        if (arr[i].field === val.field && idxField === -1) {
             idxField = i;
         }
     }
     // console.log("idxSrc", idxSrc);
     // console.log("idxField", idxField);
     // console.log("val", val);
-
-    if (val.order===ORDER_SRC) {
-        if (idxField!==-1) {
-            for (let i=idxField; i<newArr.length-1; i++){
-                newArr[i]=newArr[i+1];
+    let newIdx = -1;
+    if (val.order === ORDER_SRC) {
+        if (idxField !== -1) {
+            for (let i = idxField; i < newArr.length - 1; i++) {
+                newArr[i] = newArr[i + 1];
             }
-            newArr[newArr.length-1]=val;
+            // newArr[newArr.length-1]=val;
+            newIdx = newArr.length - 1;
         }
     } else {
-        if (idxField!==-1) {
-            const idx = (idxField<idxSrc)?idxField:idxSrc;
-            newArr[idx]=val;
+        if (idxField !== -1) {
+            newIdx = idxField < idxSrc ? idxField : idxSrc;
+            // newArr[newIdx]=val;
         } else {
-            newArr[idxSrc]=val;
+            newIdx = idxSrc;
+            // newArr[idxSrc]=val;
         }
     }
+    newArr[newIdx] = val;
+
+    const newSort = {
+        arr: newArr,
+        idx: newIdx,
+    };
     // console.log("val", val);
     return newArr;
+    // return newSort;
 };

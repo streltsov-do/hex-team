@@ -126,6 +126,7 @@ export const PageStats = () => {
         order: TypeOrder,
     ) => {
         e.preventDefault();
+
         let newArr = [...srcData];
 
         const newOrder = changeOrder(order);
@@ -149,25 +150,49 @@ export const PageStats = () => {
         setSortState(newSort);
         // console.log("newSort", newSort);
 
-        const equalsArr : string[] = [
-            "","",""
-        ];
-        for (let i=0; i<newSort.length; i++) {
-            equalsArr[i] = getEquals(newArr, newSort[i].field);
+        let equal = "";
+        for (let i = 0; i < newSort.length; i++) {
+            if (newSort[i].order === ORDER_SRC) {
+                break;
+            }
+            if (i === 0) {
+                newArr.sort((a, b) =>
+                    compareFunc(a, b, newSort[i].field, newSort[i].order),
+                );
+                equal = getEquals(newArr, newSort[i].field);
+                // console.log("equal", equal);
+            } else if (equal !== "") {
+                let parts = equal.split(",");
+                // console.log("parts", parts);
+                for (let j = 0; j < parts.length; j++) {
+                    const limits = parts[j].split(" ");
+                    const LIMIT_MIN = Number(limits[0]);
+                    const LIMIT_MAX = Number(limits[1]) + 1;
+                    const arrPart = newArr.slice(LIMIT_MIN, LIMIT_MAX);
+                    // console.log("arrPart1", arrPart);
+                    arrPart.sort((a, b) =>
+                        compareFunc(a, b, newSort[i].field, newSort[i].order),
+                    );
+                    // console.log("arrPart2", arrPart);
+                    // console.log("newArr4", newArr);
 
-            if (newSort[i].field===field) {
-
+                    newArr = [
+                        ...newArr.slice(0, LIMIT_MIN),
+                        ...arrPart,
+                        ...newArr.slice(LIMIT_MAX),
+                    ];
+                }
             }
         }
-        console.log("sa",equalsArr);
-
-        if (newOrder !== ORDER_SRC) {
-            newArr.sort((a, b) => compareFunc(a, b, field, newOrder));
-        }
-        const equals=getEquals(newArr,field);
-        console.log("equals", equals);
-        // console.log("split", equals.split(","));
+        // console.log("newArr", newArr);
+        // console.log("------------------------");
         setTableData(newArr);
+    };
+
+    const resetOrders = () => {
+        setOrderShort(ORDER_SRC);
+        setOrderTarget(ORDER_SRC);
+        setOrderCounter(ORDER_SRC);
     };
 
     const handlePage = (
@@ -178,9 +203,10 @@ export const PageStats = () => {
         let newPage = pageNow + change;
         setPages(newPage);
         update(newPage * limit, limit);
+        resetOrders();
     };
 
-    const handlePageNew = (
+    const handlePageJump = (
         e: React.MouseEvent<HTMLButtonElement>,
         newPage: number,
     ) => {
@@ -194,16 +220,14 @@ export const PageStats = () => {
         if (page < 0) {
             page = 0;
         }
-        // console.log("page",page);
 
         setClassJump("page-stats__jump");
-        // setPageNow(page);
-        // setPageJump(page);
         setPages(page);
         update(page * limit, limit);
+        resetOrders();
     };
 
-    const changePageNew = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const changePageJump = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setClassJump("page-stats__jump_wait");
         setPageJump(Number(e.target.value) - 1);
@@ -331,7 +355,7 @@ export const PageStats = () => {
                                     <button
                                         className={classJump}
                                         onClick={(e) =>
-                                            handlePageNew(e, pageJump)
+                                            handlePageJump(e, pageJump)
                                         }
                                     >
                                         Переход к странице:
@@ -341,7 +365,7 @@ export const PageStats = () => {
                                         min={1}
                                         max={totalPages}
                                         value={pageJump + 1}
-                                        onChange={changePageNew}
+                                        onChange={changePageJump}
                                     />
                                 </td>
                             </tr>
