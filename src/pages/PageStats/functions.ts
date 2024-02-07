@@ -1,4 +1,3 @@
-import { findIconDefinition } from "@fortawesome/fontawesome-svg-core";
 import {
     faSort,
     faSortDown,
@@ -14,7 +13,6 @@ import {
     TypeOrder,
     TypeOrder2,
     TypeSort,
-    TypeSortArr,
 } from "./constants";
 
 export const getStatistics = (
@@ -34,14 +32,11 @@ export const getStatistics = (
                 "Content-Type": "application/json",
                 Authorization: `${tokenType} ${access_token}`,
             },
-            // mode: 'no-cors'
         },
     ).then((response) => {
-        // console.log("rr", response);
         return response
             .json()
             .then((data) => {
-                // const totalCount = parseInt((response.headers.get('X-Total-Count') || "0"),10);
                 const finalData = {
                     data: TABLE_DATA_INIT,
                     total: 0,
@@ -174,34 +169,22 @@ export const setSort = (arr: TypeSort[], val: TypeSort) => {
             idxField = i;
         }
     }
-    // console.log("idxSrc", idxSrc);
-    // console.log("idxField", idxField);
-    // console.log("val", val);
     let newIdx = -1;
     if (val.order === ORDER_SRC) {
         if (idxField !== -1) {
             for (let i = idxField; i < newArr.length - 1; i++) {
                 newArr[i] = newArr[i + 1];
             }
-            // newArr[newArr.length-1]=val;
             newIdx = newArr.length - 1;
         }
     } else {
         if (idxField !== -1) {
             newIdx = idxField < idxSrc ? idxField : idxSrc;
-            // newArr[newIdx]=val;
         } else {
             newIdx = idxSrc;
-            // newArr[idxSrc]=val;
         }
     }
     newArr[newIdx] = val;
 
-    const newSort = {
-        arr: newArr,
-        idx: newIdx,
-    };
-    // console.log("val", val);
     return newArr;
-    // return newSort;
 };

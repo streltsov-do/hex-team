@@ -1,4 +1,4 @@
-import React, { Children, CSSProperties, useEffect, useState } from "react";
+import React, { CSSProperties } from "react";
 import { Tooltip } from "../Tooltip/Tooltip";
 import "./style/style.css";
 

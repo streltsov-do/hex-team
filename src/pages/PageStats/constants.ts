@@ -33,5 +33,4 @@ export interface TypeSort {
 export const SORT_EMPTY: TypeSort = {
     field: FIELD_SHORT,
     order: ORDER_SRC,
-}
-export type TypeSortArr = TypeSort[];
+};

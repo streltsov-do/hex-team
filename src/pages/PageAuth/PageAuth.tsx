@@ -52,7 +52,6 @@ export const PageAuth = () => {
                         setErrorPostText(`ERROR: ${data.detail}`);
                         setErrorPost(true);
                     } else {
-                        // console.log("data",data);
                         const auth = {
                             access_token: data.access_token,
                             token_type: data.token_type,

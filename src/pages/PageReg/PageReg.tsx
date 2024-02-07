@@ -32,7 +32,7 @@ export const PageReg = () => {
     };
 
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         logged && navigate("/squeeze");
     });
@@ -51,7 +51,6 @@ export const PageReg = () => {
             return response
                 .json()
                 .then((data) => {
-                    console.log("data", data);
                     if (data.detail) {
                         setErrorPostText(`ERROR: ${data.detail}`);
                         setErrorPost(true);
@@ -63,8 +62,6 @@ export const PageReg = () => {
                 .catch((error) => {
                     console.log("ERROR Response:", error);
                 });
-            // console.log("response", response.json());
-            // console.log(response.json());
         });
         // .then((data) => {
         //     console.log("res", data);

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { TextInput } from "../../components/TextInput/TextInput";
-import { Tooltip } from "../../components/Tooltip/Tooltip";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/reducers";
 import "./style/style.css";
@@ -68,10 +67,6 @@ export const PageSqueeze = () => {
                     if (data.detail) {
                         console.log("ERROR", data.detail);
                     } else {
-                        // console.log(
-                        //     "short",
-                        //     `https://front-test.hex.team/s/${data.short}`,
-                        // );
                         setUrlSqueezed(
                             `https://front-test.hex.team/s/${data.short}`,
                         );

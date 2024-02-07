@@ -9,7 +9,6 @@ import {
     FIELD_SHORT,
     FIELD_TARGET,
     IntTableData,
-    ORDER_ASC,
     ORDER_SRC,
     SORT_EMPTY,
     TypeField,
@@ -89,22 +88,6 @@ export const PageStats = () => {
         update(pageNow * limit, limit);
     }, []);
 
-    // useEffect(() => {
-    //     const sessionPage = sessionStorage.getItem("page");
-    //     const newPage = Number(sessionPage);
-    //     setPages(newPage);
-    //     update(newPage * limit, limit);
-    // }, []);
-
-    // useEffect(() => {
-    //     console.log("pageNow",pageNow);
-    //     console.log("totalPages",totalPages);
-    //     if (pageNow>totalPages){
-    //         setPages(0);
-    //         update(0,limit);
-    //     }
-    // }, [totalPages, pageNow]);
-
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         update(pageNow * limit, limit);
@@ -148,7 +131,6 @@ export const PageStats = () => {
             order: newOrder,
         });
         setSortState(newSort);
-        // console.log("newSort", newSort);
 
         let equal = "";
         for (let i = 0; i < newSort.length; i++) {
@@ -160,21 +142,16 @@ export const PageStats = () => {
                     compareFunc(a, b, newSort[i].field, newSort[i].order),
                 );
                 equal = getEquals(newArr, newSort[i].field);
-                // console.log("equal", equal);
             } else if (equal !== "") {
                 let parts = equal.split(",");
-                // console.log("parts", parts);
                 for (let j = 0; j < parts.length; j++) {
                     const limits = parts[j].split(" ");
                     const LIMIT_MIN = Number(limits[0]);
                     const LIMIT_MAX = Number(limits[1]) + 1;
                     const arrPart = newArr.slice(LIMIT_MIN, LIMIT_MAX);
-                    // console.log("arrPart1", arrPart);
                     arrPart.sort((a, b) =>
                         compareFunc(a, b, newSort[i].field, newSort[i].order),
                     );
-                    // console.log("arrPart2", arrPart);
-                    // console.log("newArr4", newArr);
 
                     newArr = [
                         ...newArr.slice(0, LIMIT_MIN),
@@ -184,8 +161,6 @@ export const PageStats = () => {
                 }
             }
         }
-        // console.log("newArr", newArr);
-        // console.log("------------------------");
         setTableData(newArr);
     };
 

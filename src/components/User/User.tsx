@@ -23,8 +23,6 @@ export const User = () => {
             dispatch(LOGOUT());
             navigate("/");
         } else {
-            // localStorage.removeItem("auth");
-            // dispatch(LOGOUT());
             navigate("/auth");
         }
     };
