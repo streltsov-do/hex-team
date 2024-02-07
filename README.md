@@ -1,46 +1,96 @@
-# Getting Started with Create React App
+# Тестовое задание для Hex-Team
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- ##### [ссылка на хостинг](http://p91621ur.beget.tech/)
 
-## Available Scripts
+- ##### [ссылка на github](https://github.com/streltsov-do/hex-team)
 
-In the project directory, you can run:
+#### Запуск приложения из github:
 
-### `npm start`
+1. Склонировать репозиторий с github
+2. Открыть корневую папку в cmd / терминале
+3. Ввести в терминале "npm i", нажать enter, дождаться установки всех node_modules
+4. Ввести в терминале "npm run start", дождаться открытия владки браузера
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### Описание тестового задания
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Тестовое задание представляет собой fronend-часть (сайт) сервиса сокращения ссылок. Основной функционал сервиса - получение по произвольной ссылке (например, https://docs.docker.com/engine/reference/commandline/attach/) короткой ссылки (https://front-test.hex.team/s/983ZV), реализующей перенаправление пользователя на исходную страницу. 
 
-### `npm test`
+Пользователь должен мочь зарегистрироваться на сайте, авторизоваться, создать произвольное количество сокращенных ссылок и просматривать количество переходов по каждой из них.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Frontend может состоять из нескольких страниц (главное наличие функциональности):
 
-### `npm run build`
+- Страница регистрации;
+- Страница авторизации;
+- Основная страница, реализующая следующую функциональность:
+  - Просмотр статистики по созданным ссылкам в виде таблицы;
+  - Таблица содержит минимум три столбца - короткая ссылка, исходная ссылка, количество переходов по короткой ссылке;
+  - Таблица должна иметь пагинацию, работающую на стороне сервера (общее количество записей в таблице передается в хэдере x-total-count) ;
+  - Таблица должна иметь возможность сортировки по столбцам (в документации указаны столбцы, по которым можно сортировать);
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Бонусом будет:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Возможность сортировки по нескольким столбцам таблицы статистики одновременно
+- Копирование сокращенных ссылок при клике
+- Запуск через docker контейнер (docker-compose.yml)
+- Развернутый сервер с вашим кодом в сети (необходимо указать ссылку в Readme.md)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Описание разработанного приложения
 
-### `npm run eject`
+1. На начальной странице сайта предлагается зарегистироваться.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+   ![readme0](./readme/readme_0.jpg)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. При ошибке регистрации - выводится соответствующее сообщение (зависит от ответа сервера).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+   ![readme1](./readme/readme_1.jpg)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+3. При успешной регистрации пользователь перенаправляется на страницу авторизации.
 
-## Learn More
+   ![readme2](./readme/readme_2.jpg)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+4. При незаполнении полей / другой ошибке - выводится соответствующее сообщение.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   ![readme3](./readme/readme_3.jpg)
+
+5. При успешном входе пользователь перенаправляется на страницу сокращения ссылок.
+
+   ![readme4](./readme/readme_4.jpg)
+
+6. После нажатия кнопки "Сократить" - формируется сокращенная ссылка. Для копирования сокращенной ссылки достаточно нажать на поле с её значением.
+
+![readme5](./readme/readme_5.jpg)
+
+7. На странице "Статистика" формируется таблица с статистикой использования созданных сокращенных ссылок.
+
+   ![readme6](./readme/readme_6.jpg)
+
+8. Для сортировки по столбцу - необходимо нажать на кнопку изменения сортировки![readme6](./readme/buttonSort.jpg)в столбце, по которому будет производиться сортировка.
+
+![readme7](./readme/readme_7.jpg)
+
+9. Для сортировки по двум столбцам необходимо нажать на такую же кнопку в другом столбце, чтобы по крайней мере в двух столбцах была не дефолтная сортировка, обозначаемая ![readme6](./readme/buttonSort.jpg).
+
+   Пример сортировки по двум столбцам: 
+
+   - восходящая сортировка по исходной ссылке + восходящая сортировка по количеству переходов
+
+   ![readme8](./readme/readme_8.jpg)
+
+   - восходящая сортировка по исходной ссылке + нисходящая сортировка по количеству переходов
+
+   ![readme9](./readme/readme_9.jpg)
+
+10. Для перехода на другую страницу есть два спобоба:
+
+    1. переключить на следующую/предыдущую страницу (указано красным цветом) 
+    2. указать необходимую страницу для перехода и нажать "Переход к странице" (указано синим цветом)
+
+![readme10](./readme/readme_10.jpg)
+
+![readme11](./readme/readme_11.jpg)
+
+
+
+#### Примечание
+
+После некоторого времени при обновлении страницы статистики пропадает привязка access_token к зарегистрированному пользователю - отображается либо пустая таблица, либо таблица с большим количеством ссылок. Это зависит от бэкенда. Для восстановления статистики пользователя - нужно перезайти на сайт с тем же логином.

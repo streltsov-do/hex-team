@@ -52,7 +52,12 @@ export const PageReg = () => {
                 .json()
                 .then((data) => {
                     if (data.detail) {
-                        setErrorPostText(`ERROR: ${data.detail}`);
+                        const message =
+                            data.detail ===
+                            `user with username='${login}' already exists`
+                                ? `Пользователь с логином '${login}' уже существует`
+                                : data.detail;
+                        setErrorPostText(`ERROR: ${message}`);
                         setErrorPost(true);
                     } else {
                         navigate("/auth");

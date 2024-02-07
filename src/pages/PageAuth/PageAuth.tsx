@@ -49,7 +49,11 @@ export const PageAuth = () => {
                 .then((data) => {
                     console.log("data", data);
                     if (data.detail) {
-                        setErrorPostText(`ERROR: ${data.detail}`);
+                        const message =
+                            data.detail === "login and password do not match"
+                                ? "логин и пароль не совпадают"
+                                : data.detai;
+                        setErrorPostText(`ERROR: ${message}`);
                         setErrorPost(true);
                     } else {
                         const auth = {

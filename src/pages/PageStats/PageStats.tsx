@@ -90,6 +90,7 @@ export const PageStats = () => {
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        resetOrders();
         update(pageNow * limit, limit);
     };
 
