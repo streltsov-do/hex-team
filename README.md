@@ -2,7 +2,6 @@
 
 - ##### [ссылка на хостинг](http://p91621ur.beget.tech/)
 
-- ##### [ссылка на github](https://github.com/streltsov-do/hex-team)
 
 #### Запуск приложения из github:
 
