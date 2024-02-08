@@ -1,4 +1,4 @@
-import { CSSProperties, ReactElement, useState } from "react";
+import { CSSProperties, useState } from "react";
 import "./style/style.css";
 
 type PropsType = {

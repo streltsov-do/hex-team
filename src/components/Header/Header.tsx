@@ -44,11 +44,9 @@ export const Header = () => {
             <nav>
                 <ul className="nav">
                     {LOCATIONS_ARR.map((val, idx) => {
-                        if (
-                            (val.logged && logged) ||
-                            (!val.logged && !logged)
-                        ) {
                             return (
+                                ((val.logged && logged) ||
+                                (!val.logged && !logged)) &&
                                 <li key={idx}>
                                     <Link
                                         className={linkClass[idx]}
@@ -58,7 +56,6 @@ export const Header = () => {
                                     </Link>
                                 </li>
                             );
-                        }
                     })}
                 </ul>
             </nav>
